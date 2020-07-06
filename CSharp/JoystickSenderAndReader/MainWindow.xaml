@@ -1,0 +1,77 @@
+﻿<Window x:Class="JoystickSenderAndReader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JoystickSenderAndReader"
+        mc:Ignorable="d"
+        Title="Tetherscript Virtual Joystick Driver Sender and Reader" Height="587.8" Width="470.4" Closing="Window_Closing" WindowStartupLocation="CenterScreen">
+    <Grid x:Name="grdControls" Margin="0.6,10,0,10" HorizontalAlignment="Left" Width="459.8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="233.608" Margin="0,75.731,-60.466,0" VerticalAlignment="Top" Width="457.266"/>
+        <Slider x:Name="slrX" HorizontalAlignment="Left" Margin="27.2,99.608,0,0" VerticalAlignment="Top" Width="164.818" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16385" IsTabStop="False"/>
+        <Slider x:Name="slrY" HorizontalAlignment="Left" Margin="27.2,130.669,0,0" VerticalAlignment="Top" Width="164.818" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16385" IsTabStop="False"/>
+        <Slider x:Name="slrZ" HorizontalAlignment="Left" Margin="27.2,161.73,0,0" VerticalAlignment="Top" Width="164.818" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16385" IsTabStop="False"/>
+        <Label x:Name="label_Copy2" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,93.481,130.733,0" Height="25.6" Width="17.6"/>
+        <Label x:Name="label_Copy3" Content="Y" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,124.081,130.733,0" Height="25.6" Width="16"/>
+        <Label x:Name="label_Copy4" Content="Z" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,155.681,130.733,0" Height="25.6" Width="17.6"/>
+        <Slider x:Name="slWheel" Margin="264.067,193.019,-28.885,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383" IsTabStop="False"/>
+        <Label x:Name="label_Copy10" Content="Wh" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,187.473,130.733,0" Height="25.6" Width="27.2"/>
+        <Slider x:Name="slHat" Margin="264.067,221.031,-28.885,0" VerticalAlignment="Top" Maximum="8" SmallChange="1" LargeChange="1000" Value="8" IsTabStop="False"/>
+        <Label x:Name="label_Copy11" Content="Hat" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,216.073,131.733,0" Height="25.6"/>
+        <ProgressBar x:Name="pbX" Height="15.2" Margin="267.516,339.939,-26.583,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383"/>
+        <Slider x:Name="slZ" Margin="264.067,161.73,-28.885,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16385" IsTabStop="False"/>
+        <Slider x:Name="slX" Margin="264.067,99.608,-28.885,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16385" IsTabStop="False"/>
+        <Label x:Name="label_Copy5" Content="rX" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,94.331,368.4,0" Height="25.6" Width="20.8"/>
+        <Slider x:Name="slY" Margin="264.067,130.669,-28.885,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16385" IsTabStop="False"/>
+        <Label x:Name="label_Copy6" Content="rY" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,124.931,368.4,0" Height="25.6" Width="20.8"/>
+        <Label x:Name="label_Copy7" Content="rZ" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,155.531,368.4,0" Height="25.6" Width="20.8"/>
+        <Slider x:Name="slDial" HorizontalAlignment="Left" Margin="27.2,220.928,0,0" VerticalAlignment="Top" Width="164.818" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16385" IsTabStop="False"/>
+        <Slider x:Name="slSlider" HorizontalAlignment="Left" Margin="27.2,193.019,0,0" VerticalAlignment="Top" Width="164.818" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16385" IsTabStop="False"/>
+        <Label x:Name="label_Copy8" Content="Sl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,187.323,368.4,0" Height="25.6" Width="19.2"/>
+        <Label x:Name="label_Copy9" Content="Dl" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,215.923,368.4,0" Height="25.6" Width="20.8"/>
+        <TextBox x:Name="tbLog" Height="74.931" Margin="0,0,-55.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="450" Text="Adjust sliders and checkboxes to send data to the joystick driver.  After it is sent to the driver, the joystick state will be read and displayed."/>
+        <Label x:Name="label_Copy" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,334.089,129.896,0" Height="25.6"/>
+        <Label x:Name="label_Copy1" Content="Y" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,356.689,129.396,0" Height="25.6"/>
+        <Label x:Name="label_Copy12" Content="Z" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,380.289,129.563,0" Height="25.6"/>
+        <Label x:Name="label_Copy13" Content="Wh" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,401.081,129.563,0" Height="25.6"/>
+        <Label x:Name="lbHat" Content="Hat" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,423.481,129.23,0" Height="25.6"/>
+        <Label x:Name="label" Content="Send to Driver" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,75.731,0,0"/>
+        <Label x:Name="label_Copy20" Content="Read from Driver" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,309.339,0,0"/>
+        <Label x:Name="lbButtonsZero" Content="Button Bit Array" HorizontalAlignment="Left" Margin="4.399,450.402,0,-2.402"/>
+        <ProgressBar x:Name="pbY" Height="15.2" Margin="267.933,362.539,-27,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383"/>
+        <ProgressBar x:Name="pbZ" Height="15.2" Margin="267.933,385.139,-27,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383"/>
+        <ProgressBar x:Name="pbWheel" Height="15.2" Margin="267.933,406.081,-27,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383"/>
+        <ProgressBar x:Name="pbrX" Height="15.2" Margin="27.2,340.339,213.733,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383" IsTabStop="False"/>
+        <Label x:Name="label_Copy15" Content="rX" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,333.489,369.963,0"/>
+        <Label x:Name="label_Copy16" Content="rY" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,357.089,369.463,0"/>
+        <Label x:Name="label_Copy17" Content="rZ" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,380.689,369.963,0"/>
+        <Label x:Name="label_Copy18" Content="Sl" HorizontalAlignment="Right"  VerticalAlignment="Top" Margin="4.937,401.481,369.463,0"/>
+        <ProgressBar x:Name="pbrY" Height="15.2" Margin="27.2,362.939,213.733,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383"/>
+        <ProgressBar x:Name="pbrZ" Height="15.2" Margin="27.2,385.539,213.733,0" VerticalAlignment="Top" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383"/>
+        <ProgressBar x:Name="pbSlider" Height="15.2" Margin="27.2,406.881,213.733,57.919" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383"/>
+        <Label x:Name="lbDial" Content="Di" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,423.481,370.13,0"/>
+        <ProgressBar x:Name="pbDial" Height="15.2" Margin="27.2,428.341,213.733,37.258" Maximum="32767" SmallChange="1" LargeChange="1000" Value="16383"/>
+        <Label x:Name="lbHatData" Content="--" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,423.481,-31.388,0" Width="157.952"/>
+        <Label x:Name="lbButtonsData1" Content="--" Margin="12.4,474.7,-60.466,-21.9" FontSize="10" FontFamily="Courier New" Height="22.4"/>
+        <Label x:Name="lbButtonsData2" Content="--" Margin="12.667,499.185,-60.466,-45.585" FontFamily="Courier New" FontSize="10" RenderTransformOrigin="0.5,0.5" Height="22.4"/>
+        <Label x:Name="lblButtonsPress" Content="Press Buttons" HorizontalAlignment="Left" Margin="10,243.528,0,204.472"/>
+        <CheckBox x:Name="cb0" Content="0" HorizontalAlignment="Left" Margin="16.8,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb1" Content="1" HorizontalAlignment="Left" Margin="46.6,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb2" Content="2" HorizontalAlignment="Left" Margin="74.4,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb3" Content="3" HorizontalAlignment="Left" Margin="103.733,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb4" Content="4" HorizontalAlignment="Left" Margin="133.533,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb5" Content="5" HorizontalAlignment="Left" Margin="161.333,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb6" Content="6" HorizontalAlignment="Left" Margin="192.137,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb7" Content="7" HorizontalAlignment="Left" Margin="221.937,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb8" Content="8" HorizontalAlignment="Left" Margin="249.737,272.328,0,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <CheckBox x:Name="cb128" Content="128" HorizontalAlignment="Left" Margin="383.383,272.328,-26.583,0" VerticalAlignment="Top" IsTabStop="False"/>
+        <Label x:Name="lblButtonsPress_Copy" Content="............................" HorizontalAlignment="Left" Margin="287.866,266.728,0,181.272"/>
+    </Grid>
+</Window>
+

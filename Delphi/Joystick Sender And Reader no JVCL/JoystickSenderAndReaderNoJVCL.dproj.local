@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/06/22 09:56:44.000.397,E:\Dev\Test\ttcHIDController\fMain.pas=C:\Users\Russ Beuker\Documents\Embarcadero\Studio\Projects\Unit84.pas</Transaction>
+    <Transaction>2020/06/22 09:56:44.000.397,E:\Dev\Test\ttcHIDController\fMain.dfm=C:\Users\Russ Beuker\Documents\Embarcadero\Studio\Projects\Unit84.dfm</Transaction>
+    <Transaction>2020/06/22 09:56:52.000.900,E:\Dev\Test\ttcHIDController\HidController.dproj=C:\Users\Russ Beuker\Documents\Embarcadero\Studio\Projects\Project79.dproj</Transaction>
+    <Transaction>2020/06/22 17:07:51.000.520,E:\Dev\Test\ttcHIDController\ttcTHidController.pas=E:\Dev\Test\ttcHIDController\Unit1.pas</Transaction>
+    <Transaction>2020/06/22 17:08:30.000.409,E:\Dev\Test\ttcHIDController\ttcHidController.pas=E:\Dev\Test\ttcHIDController\ttcTHidController.pas</Transaction>
+    <Transaction>2020/06/23 21:09:38.000.115,E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Delphi\Joystick Sender no JVCL\JoystickSenderNoJVCL.dproj=E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Delphi\Joystick Sender no JVCL\HidController.dproj</Transaction>
+    <Transaction>2020/06/23 21:11:03.000.058,E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Delphi\Joystick Sender no JVCL\JoystickSenderAndReaderNoJVCL.dproj=E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Delphi\Joystick Sender no JVCL\JoystickSenderNoJVCL.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

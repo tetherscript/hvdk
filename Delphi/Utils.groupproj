@@ -1,0 +1,132 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9AF41F0A-606A-4B56-8CFF-6A52EB68B92B}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Keyboard Sender\KeyboardSender.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Keyboard Reader\KeyboardReader.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Mouse Sender Abs\MouseSenderAbs.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Mouse Sender Rel\MouseSenderRel.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Joystick Sender And Reader no JVCL\JoystickSenderAndReaderNoJVCL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Joystick Sender\JoystickSender.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Joystick Reader\JoystickReader.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Gamepad Sender\GamepadSender.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Gamepad Reader\GamepadReader.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="KeyboardSender">
+        <MSBuild Projects="Keyboard Sender\KeyboardSender.dproj"/>
+    </Target>
+    <Target Name="KeyboardSender:Clean">
+        <MSBuild Projects="Keyboard Sender\KeyboardSender.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="KeyboardSender:Make">
+        <MSBuild Projects="Keyboard Sender\KeyboardSender.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="KeyboardReader">
+        <MSBuild Projects="Keyboard Reader\KeyboardReader.dproj"/>
+    </Target>
+    <Target Name="KeyboardReader:Clean">
+        <MSBuild Projects="Keyboard Reader\KeyboardReader.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="KeyboardReader:Make">
+        <MSBuild Projects="Keyboard Reader\KeyboardReader.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MouseSenderAbs">
+        <MSBuild Projects="Mouse Sender Abs\MouseSenderAbs.dproj"/>
+    </Target>
+    <Target Name="MouseSenderAbs:Clean">
+        <MSBuild Projects="Mouse Sender Abs\MouseSenderAbs.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MouseSenderAbs:Make">
+        <MSBuild Projects="Mouse Sender Abs\MouseSenderAbs.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MouseSenderRel">
+        <MSBuild Projects="Mouse Sender Rel\MouseSenderRel.dproj"/>
+    </Target>
+    <Target Name="MouseSenderRel:Clean">
+        <MSBuild Projects="Mouse Sender Rel\MouseSenderRel.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MouseSenderRel:Make">
+        <MSBuild Projects="Mouse Sender Rel\MouseSenderRel.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JoystickSenderAndReaderNoJVCL">
+        <MSBuild Projects="Joystick Sender And Reader no JVCL\JoystickSenderAndReaderNoJVCL.dproj"/>
+    </Target>
+    <Target Name="JoystickSenderAndReaderNoJVCL:Clean">
+        <MSBuild Projects="Joystick Sender And Reader no JVCL\JoystickSenderAndReaderNoJVCL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JoystickSenderAndReaderNoJVCL:Make">
+        <MSBuild Projects="Joystick Sender And Reader no JVCL\JoystickSenderAndReaderNoJVCL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JoystickSender">
+        <MSBuild Projects="Joystick Sender\JoystickSender.dproj"/>
+    </Target>
+    <Target Name="JoystickSender:Clean">
+        <MSBuild Projects="Joystick Sender\JoystickSender.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JoystickSender:Make">
+        <MSBuild Projects="Joystick Sender\JoystickSender.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="JoystickReader">
+        <MSBuild Projects="Joystick Reader\JoystickReader.dproj"/>
+    </Target>
+    <Target Name="JoystickReader:Clean">
+        <MSBuild Projects="Joystick Reader\JoystickReader.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="JoystickReader:Make">
+        <MSBuild Projects="Joystick Reader\JoystickReader.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GamepadSender">
+        <MSBuild Projects="Gamepad Sender\GamepadSender.dproj"/>
+    </Target>
+    <Target Name="GamepadSender:Clean">
+        <MSBuild Projects="Gamepad Sender\GamepadSender.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GamepadSender:Make">
+        <MSBuild Projects="Gamepad Sender\GamepadSender.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="GamepadReader">
+        <MSBuild Projects="Gamepad Reader\GamepadReader.dproj"/>
+    </Target>
+    <Target Name="GamepadReader:Clean">
+        <MSBuild Projects="Gamepad Reader\GamepadReader.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="GamepadReader:Make">
+        <MSBuild Projects="Gamepad Reader\GamepadReader.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="KeyboardSender;KeyboardReader;MouseSenderAbs;MouseSenderRel;JoystickSenderAndReaderNoJVCL;JoystickSender;JoystickReader;GamepadSender;GamepadReader"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="KeyboardSender:Clean;KeyboardReader:Clean;MouseSenderAbs:Clean;MouseSenderRel:Clean;JoystickSenderAndReaderNoJVCL:Clean;JoystickSender:Clean;JoystickReader:Clean;GamepadSender:Clean;GamepadReader:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="KeyboardSender:Make;KeyboardReader:Make;MouseSenderAbs:Make;MouseSenderRel:Make;JoystickSenderAndReaderNoJVCL:Make;JoystickSender:Make;JoystickReader:Make;GamepadSender:Make;GamepadReader:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

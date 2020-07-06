@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2020/06/07 17:21:15.000.006,=C:\Users\Russ Beuker\Documents\Embarcadero\Studio\Projects\Unit83.pas</Transaction>
+    <Transaction>2020/06/07 17:22:42.000.033,E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Joystick Sender\fMain.pas=C:\Users\Russ Beuker\Documents\Embarcadero\Studio\Projects\Unit83.pas</Transaction>
+    <Transaction>2020/06/07 17:22:42.000.033,E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Joystick Sender\fMain.dfm=C:\Users\Russ Beuker\Documents\Embarcadero\Studio\Projects\Unit83.dfm</Transaction>
+    <Transaction>2020/06/07 17:23:32.000.704,E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Joystick Sender\JoystickSender.dproj=C:\Users\Russ Beuker\Documents\Embarcadero\Studio\Projects\Project78.dproj</Transaction>
+    <Transaction>2020/06/07 19:24:52.000.584,=E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Common\uHVDK_Types.pas</Transaction>
+    <Transaction>2020/06/07 19:58:51.000.320,=E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Joystick Sender\Unit1.pas</Transaction>
+    <Transaction>2020/06/07 19:59:08.000.844,E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Common\uHVDK_Const.pas=E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Joystick Sender\Unit1.pas</Transaction>
+    <Transaction>2020/06/07 20:41:49.000.995,E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Mouse Sender\JoystickSender.dproj=E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Joystick\Delphi\Mouse Sender\MouseSender.dproj</Transaction>
+    <Transaction>2020/06/19 11:47:10.000.935,E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Delphi\Mouse Sender Abs\MouseSender.dproj=E:\Dev\Products\Apps\HVDK\Shared\Content\SDK\Delphi\Mouse Sender Abs\MouseSenderAbs.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
