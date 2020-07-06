@@ -13,5 +13,5 @@ https://www.tetherscript.com/kbhid/hidkb-licensing/
 
 In Summary, for HVDK Standard (free version) users:
 - The user is granted permission to install HVDK Standard on any computers that the user or users’ organization owns.
-- The user is not granted permission to redistribute the HVDK drivers.
+- The user is not granted permission to redistribute the HVDK drivers.  This means that you can't include the actual drivers in your application .zip, installer or any other kind of redistributable package.  
 - The developers of Non-Commercial Public Open Source software projects hosted on GitHub are granted permission to advise that their project requires HVDK Standard and that end-users of the project will need to download and install HVDK Standard from the Tetherscript HVDK Download page. The GitHub project page or help files must link directly to the Tetherscript HVDK Download page. The GitHub project page is not granted permission to host the HVDK Standard files or installer. We are happy to support the free and open source community, but also want to ensure that all users are getting official and secure HVDK Standard files.
