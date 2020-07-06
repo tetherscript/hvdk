@@ -6,3 +6,12 @@ These examples were created on Delphi 10.1 Berlin and Visual Studio C# .Net 3.5.
 You can find the SDK documentation at:
 
 https://www.tetherscript.com/hid-driver-kit-kb/
+
+Driver Licensing info is at:
+
+https://www.tetherscript.com/kbhid/hidkb-licensing/
+
+In Summary, for HVDK Standard (free version) users:
+- The user is granted permission to install HVDK Standard on any computers that the user or users’ organization owns.
+- The user is not granted permission to redistribute the HVDK drivers.
+- The developers of Non-Commercial Public Open Source software projects hosted on GitHub are granted permission to advise that their project requires HVDK Standard and that end-users of the project will need to download and install HVDK Standard from the Tetherscript HVDK Download page. The GitHub project page or help files must link directly to the Tetherscript HVDK Download page. The GitHub project page is not granted permission to host the HVDK Standard files or installer. We are happy to support the free and open source community, but also want to ensure that all users are getting official and secure HVDK Standard files.
