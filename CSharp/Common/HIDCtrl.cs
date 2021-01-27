@@ -214,7 +214,7 @@ namespace HIDCtrl
                                     int error1 = Marshal.GetLastWin32Error();
                                     //todo: go +1 and contine the loop...this exception handing is incomplete
                                 }
-                                IntPtr pDevicePathName = new IntPtr(DeviceInterfaceDetailData.ToInt32() + 4);
+                                IntPtr pDevicePathName = new IntPtr(DeviceInterfaceDetailData.ToInt64() + 4);
                                 FDevicePathName = Marshal.PtrToStringAuto(pDevicePathName);
                                 //see if this driver has readwrite access
                                 FDevHandle = CreateFile(FDevicePathName, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite, IntPtr.Zero, System.IO.FileMode.Open, 0, IntPtr.Zero);
