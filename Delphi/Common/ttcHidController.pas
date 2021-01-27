@@ -224,6 +224,7 @@ DevData: TSPDevInfoData;
 BytesReturned: DWORD;
 FunctionClassDeviceData: PSPDeviceInterfaceDetailDataW;
 DevicePath, LDevicePath: string;
+FWritable: Boolean;
 FAttributes: THIDDAttributes;
 begin
   Result := False;
@@ -279,6 +280,11 @@ begin
             FHidFileHandle := CreateFile(PChar(LDevicePath), GENERIC_READ or GENERIC_WRITE,
               FILE_SHARE_READ or FILE_SHARE_WRITE, nil, OPEN_EXISTING, 0, 0);
             FHasReadWriteAccess := FHidFileHandle <> INVALID_HANDLE_VALUE;
+            FWritable := FHasReadWriteAccess;
+            //maybe the driver is not readable, like a mouse driver
+            if not FHasReadWriteAccess then
+              FHidFileHandle := CreateFile(PChar(LDevicePath), 0, FILE_SHARE_READ or FILE_SHARE_WRITE, nil, OPEN_EXISTING, 0, 0);
+            FHasReadWriteAccess := FHidFileHandle <> INVALID_HANDLE_VALUE;
             if FHasReadWriteAccess then
             begin
               if FHidFileHandle <> INVALID_HANDLE_VALUE then
@@ -293,24 +299,30 @@ begin
               begin
                 Log('Connect: Cannot be opened');
               end;
-              if (FAttributes.VendorID = FVendorID) and (FAttributes.ProductID = FProductID) then
+              if (FAttributes.VendorID = FVendorID) then
               begin
-                bFoundIt := True;
-                Result := True;
-                FConnected := True;
-                Log('Connected.');
-                FReadThread := TttcHidControllerDataReadThread.Create(True, LDevicePath, FHidD_GetNumInputBuffers, FHidD_SetNumInputBuffers);
-                FReadThread.FreeOnTerminate := False;
-                FReadThread.DevicePath := LDevicePath;
-                FReadThread.OnData := FOnData;
-                FReadThread.OnTerminate := OnThreadTerminated;
-                FReadThread.Start;
-              end
-              else
-              begin
-                if FHidFileHandle <> INVALID_HANDLE_VALUE then
-                  CloseHandle(FHidFileHandle);
-            end;
+                if (FAttributes.ProductID = FProductID) then
+                  begin
+                    bFoundIt := True;
+                    Result := True;
+                    FConnected := True;
+                    Log('Connected.');
+                    if FWritable then
+                    begin
+                      FReadThread := TttcHidControllerDataReadThread.Create(True, LDevicePath, FHidD_GetNumInputBuffers, FHidD_SetNumInputBuffers);
+                      FReadThread.FreeOnTerminate := False;
+                      FReadThread.DevicePath := LDevicePath;
+                      FReadThread.OnData := FOnData;
+                      FReadThread.OnTerminate := OnThreadTerminated;
+                      FReadThread.Start;
+                    end;
+                  end
+                  else
+                  begin
+                    if FHidFileHandle <> INVALID_HANDLE_VALUE then
+                      CloseHandle(FHidFileHandle);
+                end;
+              end;
             end;
           end;
         finally
