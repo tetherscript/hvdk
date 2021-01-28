@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Common
+namespace Hvdk.Common
 {
 	public static class KbUtils
 	{

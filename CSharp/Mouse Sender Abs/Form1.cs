@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using Common;
+using Hvdk.Common;
 
 namespace App
 {

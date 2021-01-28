@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Common
+namespace Hvdk.Common
 {
     public enum DriversConst : ushort
     {
