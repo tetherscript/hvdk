@@ -10,176 +10,159 @@ using System.Runtime.CompilerServices;
 
 namespace Common
 {
-    public class LogArgs : EventArgs
-    {
-        public string Msg;
-    }
+	public class LogArgs: EventArgs
+	{
+		public string Msg;
+	}
 
-    public class HIDController
-    {
+	public class HIDController : IDisposable
+	{
 
-        public event EventHandler<LogArgs> OnLog;
+		public event EventHandler<LogArgs> OnLog;
 
-        public Guid HIDGuid;
-        protected bool FConnected = false;
-        protected ushort FProductID;
-        protected ushort FVendorID;
-        protected SafeFileHandle FDevHandle;
-        protected string FDevicePathName;
+		public Guid HIDGuid;
+		SafeFileHandle FDevHandle;
+		string FDevicePathName;
 
-        public HIDController()
-        {
+		public HIDController()
+		{
+			Connected = false;
+		}
 
-        }
+		public bool Connected { get; set; }
 
-        public bool Connected
-        {
-            get { return FConnected; }
-            set { FConnected = value; }
-        }
+		public ushort ProductID { get; set; }
 
-        public ushort ProductID
-        {
-            get { return FProductID; }
-            set { FProductID = value; }
+		public ushort VendorID { get; set; }
 
-        }
+		public enum DiGetClassFlags: uint
+		{
+			DIGCF_PRESENT = 0x00000002,
+			DIGCF_DEVICEINTERFACE = 0x00000010,
+		}
 
-        public ushort VendorID
-        {
-            get { return FVendorID; }
-            set { FVendorID = value; }
-
-        }
-
-        public enum DiGetClassFlags : uint
-        {
-            DIGCF_PRESENT = 0x00000002,
-            DIGCF_DEVICEINTERFACE = 0x00000010,
-        }
-
-        public const uint FILE_FLAG_OVERLAPPED = 0x40000000;
+		public const uint FILE_FLAG_OVERLAPPED = 0x40000000;
 		IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct SP_DEVICE_INTERFACE_DATA
-        {
-            public uint cbSize;
-            public Guid interfaceClassGuid;
-            public int flags;
-            private IntPtr reserved;
-        }
+		[StructLayout(LayoutKind.Sequential)]
+		public struct SP_DEVICE_INTERFACE_DATA
+		{
+			public uint cbSize;
+			public Guid interfaceClassGuid;
+			public int flags;
+			private IntPtr reserved;
+		}
 
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
-        public struct SP_DEVICE_INTERFACE_DETAIL_DATA
-        {
-            public uint cbSize;
-            public char devicePath;
-        }
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 1)]
+		public struct SP_DEVICE_INTERFACE_DETAIL_DATA
+		{
+			public uint cbSize;
+			public char devicePath;
+		}
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct SP_DEVINFO_DATA
-        {
-            public uint cbSize;
-            public Guid ClassGuid;
-            public uint DevInst;
-            public IntPtr Reserved;
-        }
+		[StructLayout(LayoutKind.Sequential)]
+		public struct SP_DEVINFO_DATA
+		{
+			public uint cbSize;
+			public Guid ClassGuid;
+			public uint DevInst;
+			public IntPtr Reserved;
+		}
 
-        public struct HIDD_ATTRIBUTES
-        {
-            public int Size;
-            public ushort VendorID;
-            public ushort ProductID;
-            public ushort VersionNumber;
-        }
-        //------------------------------------------------------------------------------------------------------
+		public struct HIDD_ATTRIBUTES
+		{
+			public int Size;
+			public ushort VendorID;
+			public ushort ProductID;
+			public ushort VersionNumber;
+		}
+		//------------------------------------------------------------------------------------------------------
 
-        private const string _setupApiDll = "SetupApi.dll";
+		private const string _setupApiDll = "SetupApi.dll";
 		[DllImport(_setupApiDll, CharSet = CharSet.Auto)]
-        static extern IntPtr SetupDiGetClassDevs(ref Guid ClassGuid, IntPtr Enumerator, IntPtr hwndParent, int Flags);
+		static extern IntPtr SetupDiGetClassDevs(ref Guid ClassGuid, IntPtr Enumerator, IntPtr hwndParent, int Flags);
 
-        [DllImport(_setupApiDll, CharSet = CharSet.Auto)]
-        static extern bool SetupDiEnumDeviceInterfaces(IntPtr hDevInfo, IntPtr devInfo, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
+		[DllImport(_setupApiDll, CharSet = CharSet.Auto)]
+		static extern bool SetupDiEnumDeviceInterfaces(IntPtr hDevInfo, IntPtr devInfo, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
 
-        [DllImport(_setupApiDll, CharSet = CharSet.Auto, SetLastError = true)]
-        static extern bool SetupDiGetDeviceInterfaceDetail(
-            IntPtr hDevInfo,
-            SP_DEVICE_INTERFACE_DATA deviceInterfaceData,
-            IntPtr deviceInterfaceDetailData,
-            uint deviceInterfaceDetailDataSize,
-            out uint requiredSize,
-            SP_DEVINFO_DATA deviceInfoData);
+		[DllImport(_setupApiDll, CharSet = CharSet.Auto, SetLastError = true)]
+		static extern bool SetupDiGetDeviceInterfaceDetail(
+			IntPtr hDevInfo,
+			SP_DEVICE_INTERFACE_DATA deviceInterfaceData,
+			IntPtr deviceInterfaceDetailData,
+			uint deviceInterfaceDetailDataSize,
+			out uint requiredSize,
+			SP_DEVINFO_DATA deviceInfoData);
 
-        private const string _hidDll = "HID.dll";
+		private const string _hidDll = "HID.dll";
 
-        [DllImport(_hidDll, CharSet = CharSet.Auto)]
-        static extern void HidD_GetHidGuid(out Guid ClassGuid);
+		[DllImport(_hidDll, CharSet = CharSet.Auto)]
+		static extern void HidD_GetHidGuid(out Guid ClassGuid);
 
-        [DllImport(_hidDll, CharSet = CharSet.Auto)]
-        static extern bool HidD_GetAttributes(SafeFileHandle HidDeviceObject, ref HIDD_ATTRIBUTES Attributes);
+		[DllImport(_hidDll, CharSet = CharSet.Auto)]
+		static extern bool HidD_GetAttributes(SafeFileHandle HidDeviceObject, ref HIDD_ATTRIBUTES Attributes);
 
-        [DllImport(_hidDll, CharSet = CharSet.Auto)]
-        static extern bool HidD_GetNumInputBuffers(SafeFileHandle HidDeviceObject, ref uint NumberBuffers);
+		[DllImport(_hidDll, CharSet = CharSet.Auto)]
+		static extern bool HidD_GetNumInputBuffers(SafeFileHandle HidDeviceObject, ref uint NumberBuffers);
 
-        [DllImport(_hidDll, CharSet = CharSet.Auto)]
-        static extern bool HidD_SetNumInputBuffers(SafeFileHandle HidDeviceObject, uint BufferLength);
+		[DllImport(_hidDll, CharSet = CharSet.Auto)]
+		static extern bool HidD_SetNumInputBuffers(SafeFileHandle HidDeviceObject, uint BufferLength);
 
-        [DllImport(_hidDll, CharSet = CharSet.Auto, SetLastError = true)]
-        static extern bool HidD_SetFeature(SafeFileHandle HidDeviceObject, byte[] Buffer, uint BufferLength);
+		[DllImport(_hidDll, CharSet = CharSet.Auto, SetLastError = true)]
+		static extern bool HidD_SetFeature(SafeFileHandle HidDeviceObject, byte[] Buffer, uint BufferLength);
 
-        [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        static extern SafeFileHandle CreateFile(
-            string fileName,
-            [MarshalAs(UnmanagedType.U4)] FileAccess fileAccess,
-            //UInt32 fileAccess,
-            [MarshalAs(UnmanagedType.U4)] FileShare fileShare,
-            IntPtr securityAttributes,
-            [MarshalAs(UnmanagedType.U4)] FileMode creationDisposition,
-            //[MarshalAs(UnmanagedType.U4)] FileAttributes flagsAndAttributes,
-            uint flagsAndAttributes,
-            IntPtr template);
+		[DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		static extern SafeFileHandle CreateFile(
+			string fileName,
+			[MarshalAs(UnmanagedType.U4)] FileAccess fileAccess,
+			//UInt32 fileAccess,
+			[MarshalAs(UnmanagedType.U4)] FileShare fileShare,
+			IntPtr securityAttributes,
+			[MarshalAs(UnmanagedType.U4)] FileMode creationDisposition,
+			//[MarshalAs(UnmanagedType.U4)] FileAttributes flagsAndAttributes,
+			uint flagsAndAttributes,
+			IntPtr template);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        internal static extern bool ReadFileEx(
-            SafeFileHandle hFile,
-            [Out] byte[] lpbuffer,
-            [In] uint nNumberOfBytesToRead,
-            [In, Out] ref NativeOverlapped lpOverlapped,
-            IntPtr lpCompletionRoutine);
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		internal static extern bool ReadFileEx(
+			SafeFileHandle hFile,
+			[Out] byte[] lpbuffer,
+			[In] uint nNumberOfBytesToRead,
+			[In, Out] ref NativeOverlapped lpOverlapped,
+			IntPtr lpCompletionRoutine);
 
-        //------------------------------------------------------------------------------------------------------
-        //------------------------------------------------------------------------------------------------------
+		//------------------------------------------------------------------------------------------------------
+		//------------------------------------------------------------------------------------------------------
 
-        //make a log entry
-        private void DoLog(string Msg)
-        {
-            if (OnLog != null)
-            {
-                LogArgs args = new LogArgs();
-                args.Msg = Msg;
-                OnLog(this, args);
-            }
-        }
+		//make a log entry
+		private void DoLog(string Msg)
+		{
+			if (OnLog != null)
+			{
+				LogArgs args = new LogArgs();
+				args.Msg = Msg;
+				OnLog(this, args);
+			}
+		}
 
-        //connect to the driver.  We'll iterate through all present HID devices and find the one that matches our target VENDORID and PRODUCTID
-        public void Connect()
-        {
-            DoLog("Connecting...");
-            if (FConnected)
-            {
-                DoLog("Already connected.");
-                return;
-            }
+		//connect to the driver.  We'll iterate through all present HID devices and find the one that matches our target VENDORID and PRODUCTID
+		public void Connect()
+		{
+			DoLog("Connecting...");
+			if (Connected)
+			{
+				DoLog("Already connected.");
+				return;
+			}
 
-            HidD_GetHidGuid(out HIDGuid);
+			HidD_GetHidGuid(out HIDGuid);
 
-            IntPtr PnPHandle = SetupDiGetClassDevs(ref HIDGuid, IntPtr.Zero, IntPtr.Zero, (int)(DiGetClassFlags.DIGCF_PRESENT | DiGetClassFlags.DIGCF_DEVICEINTERFACE));
-            if (PnPHandle == (IntPtr)INVALID_HANDLE_VALUE)
-            {
-                DoLog("Connect: SetupDiGetClassDevs failed.");
-                return;
-            }
+			IntPtr PnPHandle = SetupDiGetClassDevs(ref HIDGuid, IntPtr.Zero, IntPtr.Zero, (int)(DiGetClassFlags.DIGCF_PRESENT | DiGetClassFlags.DIGCF_DEVICEINTERFACE));
+			if (PnPHandle == (IntPtr)INVALID_HANDLE_VALUE)
+			{
+				DoLog("Connect: SetupDiGetClassDevs failed.");
+				return;
+			}
 
 			bool bFoundMyDevice = false;
 			uint i = 0;
@@ -228,11 +211,11 @@ namespace Common
 									HIDD_ATTRIBUTES HIDAttributes = new HIDD_ATTRIBUTES();
 									HIDAttributes.Size = Marshal.SizeOf(HIDAttributes);
 									bool success = HidD_GetAttributes(FDevHandle, ref HIDAttributes);
-									if (success && HIDAttributes.VendorID == FVendorID && HIDAttributes.ProductID == FProductID)
+									if (success && HIDAttributes.VendorID == VendorID && HIDAttributes.ProductID == ProductID)
 									{
 										//this is the device we are looking for
 										bFoundMyDevice = true;
-										FConnected = true;
+										Connected = true;
 										DoLog("Connected.");
 										//normally you would start a read thread here, but we aren't doing that in this example. We'll just call .ReadData instead.
 										//we won't close our file handle here as it will be need in .SendData.
@@ -255,47 +238,51 @@ namespace Common
 			} while ((bFoundADevice) & (!bFoundMyDevice));
 		}
 
-        //disconnect
-        public void Disconnect()
-        {
-            //uninitialize some of our connect code
-            //getting occasional error on shutdown due to something being left open...
-            //not sure what effect garbage collector has on this.
-            FConnected = false;
-            FDevHandle.Close();
-        }
+		//disconnect
+		public void Disconnect()
+		{
+			//uninitialize some of our connect code
+			//getting occasional error on shutdown due to something being left open...
+			//not sure what effect garbage collector has on this.
+			Connected = false;
+			FDevHandle.Close();
+		}
+		public void Dispose() { 
+			Disconnect();
+			GC.SuppressFinalize(this);
+		}
 
-        //send data to the driver
-        public bool SendData(byte[] Buffer, uint BufferLength)
-        {
-            bool res = false;
-            if (FConnected)
-            {
-                res = HidD_SetFeature(FDevHandle, Buffer, BufferLength + 1);
-            }
-            return res;
-        }
 
-        //read data from the driver.  This ideally should be in a thread
-        //in this example, we oversimplified the possible effects of overlapped data reads since readfilex is asynchronous
-        public bool ReadData(byte[] Buffer, uint BufferLength)
-        {
-            bool res = false;
-            if (FConnected)
-            {
-                if (!FDevHandle.IsInvalid)
-                        
-                {
-                    var overlapped = new NativeOverlapped();
-                    overlapped.EventHandle = IntPtr.Zero;
-                    bool res1 = ReadFileEx(FDevHandle, Buffer, BufferLength, ref overlapped, IntPtr.Zero);
-                    res = true;
-                }
-            }
-            return res;
-        }
+		//send data to the driver
+		public bool SendData(byte[] Buffer, uint BufferLength)
+		{
+			bool res = false;
+			if (Connected)
+			{
+				res = HidD_SetFeature(FDevHandle, Buffer, BufferLength + 1);
+			}
+			return res;
+		}
 
-    }
+		//read data from the driver.  This ideally should be in a thread
+		//in this example, we oversimplified the possible effects of overlapped data reads since readfilex is asynchronous
+		public bool ReadData(byte[] Buffer, uint BufferLength)
+		{
+			bool res = false;
+			if (Connected)
+			{
+				if (!FDevHandle.IsInvalid)
+				{
+					var overlapped = new NativeOverlapped();
+					overlapped.EventHandle = IntPtr.Zero;
+					bool res1 = ReadFileEx(FDevHandle, Buffer, BufferLength, ref overlapped, IntPtr.Zero);
+					res = true;
+				}
+			}
+			return res;
+		}
+
+	}
 
 
 }
