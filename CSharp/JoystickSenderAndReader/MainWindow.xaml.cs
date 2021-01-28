@@ -3,8 +3,9 @@ using System.Windows;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
 using System.Windows.Threading;
-using HIDCtrl;
-using Drivers;
+using Common;
+
+
 
 //this app uses the minimal code to read and write the the virtual HID driver.
 

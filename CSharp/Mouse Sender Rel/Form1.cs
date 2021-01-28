@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using HIDCtrl;
-using Drivers;
+using Common;
 
 namespace App
 {

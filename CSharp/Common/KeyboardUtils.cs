@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Text;
 
-namespace KeyboardUtils
+namespace Common
 {
-    class KbUtils
+    public class KbUtils
     {
 
         [DllImport("user32.dll")]

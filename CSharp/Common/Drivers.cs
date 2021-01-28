@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Drivers
+namespace Common
 {
     public enum DriversConst : ushort
     {

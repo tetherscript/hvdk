@@ -8,15 +8,14 @@ using System.Runtime.CompilerServices;
 //this is the minimal amount of code to allow reading from and writing to the device driver.
 //you should consider using a thread for your reading (and maybe writing) code.
 
-namespace HIDCtrl
+namespace Common
 {
-
     public class LogArgs : EventArgs
     {
         public string Msg;
     }
 
-    class HIDController
+    public class HIDController
     {
 
         public event EventHandler<LogArgs> OnLog;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project>
+  <PropertyGroup>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+	 <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+	 <Prefer32Bit>false</Prefer32Bit>
+	 <LangVersion>latest</LangVersion>
+	 <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+
+  
+</Project>
