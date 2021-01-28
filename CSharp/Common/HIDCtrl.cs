@@ -21,18 +21,18 @@ namespace Common
         public event EventHandler<LogArgs> OnLog;
 
         public Guid HIDGuid;
-        protected Boolean FConnected = false;
+        protected bool FConnected = false;
         protected ushort FProductID;
         protected ushort FVendorID;
         protected SafeFileHandle FDevHandle;
-        protected String FDevicePathName;
+        protected string FDevicePathName;
 
         public HIDController()
         {
 
         }
 
-        public Boolean Connected
+        public bool Connected
         {
             get { return FConnected; }
             set { FConnected = value; }
@@ -67,7 +67,7 @@ namespace Common
         {
             public uint cbSize;
             public Guid interfaceClassGuid;
-            public Int32 flags;
+            public int flags;
             private IntPtr reserved;
         }
 
@@ -89,10 +89,10 @@ namespace Common
 
         public struct HIDD_ATTRIBUTES
         {
-            public Int32 Size;
-            public UInt16 VendorID;
-            public UInt16 ProductID;
-            public UInt16 VersionNumber;
+            public int Size;
+            public ushort VendorID;
+            public ushort ProductID;
+            public ushort VersionNumber;
         }
 
         //------------------------------------------------------------------------------------------------------
@@ -101,10 +101,10 @@ namespace Common
         static extern IntPtr SetupDiGetClassDevs(ref Guid ClassGuid, IntPtr Enumerator, IntPtr hwndParent, int Flags);
 
         [DllImport("Setupapi.dll", CharSet = CharSet.Auto)]
-        public static extern Boolean SetupDiEnumDeviceInterfaces(IntPtr hDevInfo, IntPtr devInfo, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
+        public static extern bool SetupDiEnumDeviceInterfaces(IntPtr hDevInfo, IntPtr devInfo, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
 
         [DllImport(@"setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern Boolean SetupDiGetDeviceInterfaceDetail(
+        public static extern bool SetupDiGetDeviceInterfaceDetail(
             IntPtr hDevInfo,
             SP_DEVICE_INTERFACE_DATA deviceInterfaceData,
             IntPtr deviceInterfaceDetailData,
@@ -180,9 +180,9 @@ namespace Common
                 return;
             }
 
-            //we coudld use a lot more failure and exception logging during this loop
-            Boolean bFoundADevice = false;
-            Boolean bFoundMyDevice = false;
+			//we coudld use a lot more failure and exception logging during this loop
+			bool bFoundADevice = false;
+			bool bFoundMyDevice = false;
             uint i = 0;
             do
             {
@@ -226,7 +226,7 @@ namespace Common
                                     //this device has readwrite access, could it be the device we are looking for?
                                     HIDD_ATTRIBUTES HIDAttributes = new HIDD_ATTRIBUTES();
                                     HIDAttributes.Size = Marshal.SizeOf(HIDAttributes);
-                                    Boolean success = HidD_GetAttributes(FDevHandle, ref HIDAttributes);
+									bool success = HidD_GetAttributes(FDevHandle, ref HIDAttributes);
                                     if (success && HIDAttributes.VendorID == FVendorID && HIDAttributes.ProductID == FProductID)
                                     {
                                         //this is the device we are looking for
@@ -265,7 +265,7 @@ namespace Common
         }
 
         //send data to the driver
-        public Boolean SendData(byte[] Buffer, uint BufferLength)
+        public bool SendData(byte[] Buffer, uint BufferLength)
         {
             bool res = false;
             if (FConnected)
@@ -277,7 +277,7 @@ namespace Common
 
         //read data from the driver.  This ideally should be in a thread
         //in this example, we oversimplified the possible effects of overlapped data reads since readfilex is asynchronous
-        public Boolean ReadData(byte[] Buffer, uint BufferLength)
+        public bool ReadData(byte[] Buffer, uint BufferLength)
         {
             bool res = false;
             if (FConnected)

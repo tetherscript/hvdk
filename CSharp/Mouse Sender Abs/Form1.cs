@@ -55,8 +55,8 @@ namespace App
             if (cbRight.Checked) { btns = (byte)(btns | (1 << 1)); }
             if (cbLeft.Checked) { btns = (byte)(btns | (1 << 2)); }
             MouseAbsData.Buttons = btns;  //button states are represented by the 3 least significant bits
-            MouseAbsData.X = (UInt16)spnX.Value;
-            MouseAbsData.Y = (UInt16)spnY.Value;
+            MouseAbsData.X = (ushort)spnX.Value;
+            MouseAbsData.Y = (ushort)spnY.Value;
             //convert struct to buffer
             byte[] buf = getBytesSFJ(MouseAbsData, Marshal.SizeOf(MouseAbsData));
             //send filled buffer to driver

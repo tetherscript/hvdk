@@ -16,7 +16,7 @@ namespace JoystickSenderAndReader
         //create the HIDController object
         HIDController HID = new HIDController();
         DispatcherTimer timer = new DispatcherTimer();
-        Boolean closing = false;
+		bool closing = false;
 
         public MainWindow()
         {
@@ -64,16 +64,16 @@ namespace JoystickSenderAndReader
             SetFeatureJoy JoyData = new SetFeatureJoy();
             JoyData.ReportID = 1;
             JoyData.CommandCode = 2;
-            JoyData.X = (UInt16)slX.Value;
-            JoyData.Y = (UInt16)slY.Value;
-            JoyData.Z = (UInt16)slZ.Value;
-            JoyData.rX = (UInt16)slrX.Value;
-            JoyData.rY = (UInt16)slrY.Value;
-            JoyData.rZ = (UInt16)slrZ.Value;
-            JoyData.slider = (UInt16)slSlider.Value;
-            JoyData.wheel = (UInt16)slWheel.Value;
-            JoyData.dial = (UInt16)slDial.Value;
-            JoyData.hat = (Byte)slHat.Value;
+            JoyData.X = (ushort)slX.Value;
+            JoyData.Y = (ushort)slY.Value;
+            JoyData.Z = (ushort)slZ.Value;
+            JoyData.rX = (ushort)slrX.Value;
+            JoyData.rY = (ushort)slrY.Value;
+            JoyData.rZ = (ushort)slrZ.Value;
+            JoyData.slider = (ushort)slSlider.Value;
+            JoyData.wheel = (ushort)slWheel.Value;
+            JoyData.dial = (ushort)slDial.Value;
+            JoyData.hat = (byte)slHat.Value;
             //non-hat buttons are represented as a bit array of 16 bytes, 1 bit per button.
             //we could have used a byte array here, but for simplicity we instead just declared 16 byte variables.
             //each button is represented by 1 bit.  The bit is 1 if pressed, 0 if not pressed.

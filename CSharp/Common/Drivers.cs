@@ -17,37 +17,37 @@ namespace Common
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct SetFeatureKeyboard
     {
-        public Byte ReportID;
-        public Byte CommandCode;
+        public byte ReportID;
+        public byte CommandCode;
         public uint Timeout;
-        public Byte Modifier;
-        public Byte Padding;
-        public Byte Key0;
-        public Byte Key1;
-        public Byte Key2;
-        public Byte Key3;
-        public Byte Key4;
-        public Byte Key5;
+        public byte Modifier;
+        public byte Padding;
+        public byte Key0;
+        public byte Key1;
+        public byte Key2;
+        public byte Key3;
+        public byte Key4;
+        public byte Key5;
     }
 
     //MOUSE ABS ------------------------------------------------------------------------------------------------------------
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct SetFeatureMouseAbs
     {
-        public Byte ReportID;
-        public Byte CommandCode;
-        public Byte Buttons;
-        public UInt16 X;
-        public UInt16 Y;
+        public byte ReportID;
+        public byte CommandCode;
+        public byte Buttons;
+        public ushort X;
+        public ushort Y;
     }
 
     //MOUSE REL ------------------------------------------------------------------------------------------------------------
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct SetFeatureMouseRel
     {
-        public Byte ReportID;
-        public Byte CommandCode;
-        public Byte Buttons;
+        public byte ReportID;
+        public byte CommandCode;
+        public byte Buttons;
         public sbyte X;
         public sbyte Y;
     }
@@ -56,66 +56,66 @@ namespace Common
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct SetFeatureJoy
     {
-        public Byte ReportID;
-        public Byte CommandCode;
-        public UInt16 X;
-        public UInt16 Y;
-        public UInt16 Z;
-        public UInt16 rX;
-        public UInt16 rY;
-        public UInt16 rZ;
-        public UInt16 slider;
-        public UInt16 dial;
-        public UInt16 wheel;
-        public Byte hat;
-        public Byte btn0;   //you really could use a byte[15] array here instead, but it's a bit more complex to implement, so we didn't do that here
-        public Byte btn1;
-        public Byte btn2;
-        public Byte btn3;
-        public Byte btn4;
-        public Byte btn5;
-        public Byte btn6;
-        public Byte btn7;
-        public Byte btn8;
-        public Byte btn9;
-        public Byte btn10;
-        public Byte btn11;
-        public Byte btn12;
-        public Byte btn13;
-        public Byte btn14;
-        public Byte btn15;
+        public byte ReportID;
+        public byte CommandCode;
+        public ushort X;
+        public ushort Y;
+        public ushort Z;
+        public ushort rX;
+        public ushort rY;
+        public ushort rZ;
+        public ushort slider;
+        public ushort dial;
+        public ushort wheel;
+        public byte hat;
+        public byte btn0;   //you really could use a byte[15] array here instead, but it's a bit more complex to implement, so we didn't do that here
+        public byte btn1;
+        public byte btn2;
+        public byte btn3;
+        public byte btn4;
+        public byte btn5;
+        public byte btn6;
+        public byte btn7;
+        public byte btn8;
+        public byte btn9;
+        public byte btn10;
+        public byte btn11;
+        public byte btn12;
+        public byte btn13;
+        public byte btn14;
+        public byte btn15;
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct GetDataJoy
     {
-        public Byte ReportID;
-        public UInt16 X;
-        public UInt16 Y;
-        public UInt16 Z;
-        public UInt16 rX;
-        public UInt16 rY;
-        public UInt16 rZ;
-        public UInt16 slider;
-        public UInt16 dial;
-        public UInt16 wheel;
-        public Byte hat;
-        public Byte btn0; //you really could use a byte[15] array here instead, but it's a bit more complex to implement, so we didn't do that here
-        public Byte btn1;
-        public Byte btn2;
-        public Byte btn3;
-        public Byte btn4;
-        public Byte btn5;
-        public Byte btn6;
-        public Byte btn7;
-        public Byte btn8;
-        public Byte btn9;
-        public Byte btn10;
-        public Byte btn11;
-        public Byte btn12;
-        public Byte btn13;
-        public Byte btn14;
-        public Byte btn15;
+        public byte ReportID;
+        public ushort X;
+        public ushort Y;
+        public ushort Z;
+        public ushort rX;
+        public ushort rY;
+        public ushort rZ;
+        public ushort slider;
+        public ushort dial;
+        public ushort wheel;
+        public byte hat;
+        public byte btn0; //you really could use a byte[15] array here instead, but it's a bit more complex to implement, so we didn't do that here
+        public byte btn1;
+        public byte btn2;
+        public byte btn3;
+        public byte btn4;
+        public byte btn5;
+        public byte btn6;
+        public byte btn7;
+        public byte btn8;
+        public byte btn9;
+        public byte btn10;
+        public byte btn11;
+        public byte btn12;
+        public byte btn13;
+        public byte btn14;
+        public byte btn15;
     }
 
 }

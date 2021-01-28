@@ -42,7 +42,7 @@ namespace App
         }
 
         //here we send data to the keyboard driver
-        void Send(Byte Modifier, Byte Padding, Byte Key0, Byte Key1, Byte Key2, Byte Key3, Byte Key4, Byte Key5)
+        void Send(byte Modifier, byte Padding, byte Key0, byte Key1, byte Key2, byte Key3, byte Key4, byte Key5)
         {
             SetFeatureKeyboard KeyboardData = new SetFeatureKeyboard();
             KeyboardData.ReportID = 1;

@@ -29,7 +29,7 @@ namespace Common
             AddKeyKeyCodes();
         }
 
-        public Boolean AppActivate(string Name, int PauseAfterActivation)
+        public bool AppActivate(string Name, int PauseAfterActivation)
         {
             if (Name != "")
             {   //is it already the foreground window?
@@ -58,7 +58,7 @@ namespace Common
         //this is based specs in /common/hut1_12v2.pdf
         //special keycodes for modifiers like shift and control
 
-        public Byte GetModifierKeyCode(string modifier)
+        public byte GetModifierKeyCode(string modifier)
         {
             int i = FModifiers.IndexOf(modifier);
             if (i == -1) { return 0; } else { return (byte)i; };
@@ -77,7 +77,7 @@ namespace Common
             FModifiers.Add("[RWIN]");
         }
 
-        public Byte GetKeyKeyCode(string key)
+        public byte GetKeyKeyCode(string key)
         {
             int i = FKeys.IndexOf(key);
             if (i == -1) { return 0; } else { return (byte)i; };
