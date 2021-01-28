@@ -1,13 +1,13 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using Common;
+using System;
 using System.Runtime.InteropServices;
-using Common;
+using System.Windows.Forms;
 
 namespace App
 {
 
-    //create the HIDController object
-    public partial class Form1 : Form
+	//create the HIDController object
+	public partial class Form1 : Form
     {
 
         private HIDController HID = new HIDController();
