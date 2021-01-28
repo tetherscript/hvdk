@@ -59,8 +59,7 @@ namespace Common
         }
 
         public const uint FILE_FLAG_OVERLAPPED = 0x40000000;
-
-        IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+		IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
 
         [StructLayout(LayoutKind.Sequential)]
         public struct SP_DEVICE_INTERFACE_DATA
@@ -94,17 +93,17 @@ namespace Common
             public ushort ProductID;
             public ushort VersionNumber;
         }
-
         //------------------------------------------------------------------------------------------------------
 
-        [DllImport("SetupApi.dll", CharSet = CharSet.Auto)]
+        private const string _setupApiDll = "SetupApi.dll";
+		[DllImport(_setupApiDll, CharSet = CharSet.Auto)]
         static extern IntPtr SetupDiGetClassDevs(ref Guid ClassGuid, IntPtr Enumerator, IntPtr hwndParent, int Flags);
 
-        [DllImport("Setupapi.dll", CharSet = CharSet.Auto)]
-        public static extern bool SetupDiEnumDeviceInterfaces(IntPtr hDevInfo, IntPtr devInfo, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
+        [DllImport(_setupApiDll, CharSet = CharSet.Auto)]
+        static extern bool SetupDiEnumDeviceInterfaces(IntPtr hDevInfo, IntPtr devInfo, ref Guid interfaceClassGuid, uint memberIndex, ref SP_DEVICE_INTERFACE_DATA deviceInterfaceData);
 
-        [DllImport(@"setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        public static extern bool SetupDiGetDeviceInterfaceDetail(
+        [DllImport(_setupApiDll, CharSet = CharSet.Auto, SetLastError = true)]
+        static extern bool SetupDiGetDeviceInterfaceDetail(
             IntPtr hDevInfo,
             SP_DEVICE_INTERFACE_DATA deviceInterfaceData,
             IntPtr deviceInterfaceDetailData,
@@ -112,20 +111,22 @@ namespace Common
             out uint requiredSize,
             SP_DEVINFO_DATA deviceInfoData);
 
-        [DllImport("HID.dll", CharSet = CharSet.Auto)]
+        private const string _hidDll = "HID.dll";
+
+        [DllImport(_hidDll, CharSet = CharSet.Auto)]
         static extern void HidD_GetHidGuid(out Guid ClassGuid);
 
-        [DllImport("HID.dll", CharSet = CharSet.Auto)]
+        [DllImport(_hidDll, CharSet = CharSet.Auto)]
         static extern bool HidD_GetAttributes(SafeFileHandle HidDeviceObject, ref HIDD_ATTRIBUTES Attributes);
 
-        [DllImport("HID.dll", CharSet = CharSet.Auto)]
-        private static extern bool HidD_GetNumInputBuffers(SafeFileHandle HidDeviceObject, ref uint NumberBuffers);
+        [DllImport(_hidDll, CharSet = CharSet.Auto)]
+        static extern bool HidD_GetNumInputBuffers(SafeFileHandle HidDeviceObject, ref uint NumberBuffers);
 
-        [DllImport("hid.dll", CharSet = CharSet.Auto)]
-        private static extern bool HidD_SetNumInputBuffers(SafeFileHandle HidDeviceObject, uint BufferLength);
+        [DllImport(_hidDll, CharSet = CharSet.Auto)]
+        static extern bool HidD_SetNumInputBuffers(SafeFileHandle HidDeviceObject, uint BufferLength);
 
-        [DllImport("hid.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool HidD_SetFeature(SafeFileHandle HidDeviceObject, byte[] Buffer, uint BufferLength);
+        [DllImport(_hidDll, CharSet = CharSet.Auto, SetLastError = true)]
+        static extern bool HidD_SetFeature(SafeFileHandle HidDeviceObject, byte[] Buffer, uint BufferLength);
 
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         static extern SafeFileHandle CreateFile(
@@ -180,79 +181,79 @@ namespace Common
                 return;
             }
 
-			//we coudld use a lot more failure and exception logging during this loop
-			bool bFoundADevice = false;
 			bool bFoundMyDevice = false;
-            uint i = 0;
-            do
-            {
-                SP_DEVICE_INTERFACE_DATA DevInterfaceData = new SP_DEVICE_INTERFACE_DATA();
-                DevInterfaceData.cbSize = (uint)Marshal.SizeOf(DevInterfaceData);
-                bFoundADevice = SetupDiEnumDeviceInterfaces(PnPHandle, IntPtr.Zero, ref HIDGuid, i, ref DevInterfaceData);
-                if (bFoundADevice)
-                {
-                    SP_DEVINFO_DATA DevInfoData = new SP_DEVINFO_DATA();
-                    DevInfoData.cbSize = (uint)Marshal.SizeOf(DevInfoData);
-                    uint needed;
-                    bool result3 = SetupDiGetDeviceInterfaceDetail(PnPHandle, DevInterfaceData, IntPtr.Zero, 0, out needed, DevInfoData);
-                    if (!result3)
-                    {
-                        int error = Marshal.GetLastWin32Error();
-                        if (error == 122)
-                        {
-                            //it's supposed to give an error 122 as we just only retrieved the data size needed, so this is as designed
-                            IntPtr DeviceInterfaceDetailData = Marshal.AllocHGlobal((int)needed);
-                            try
-                            {
-                                uint size = needed;
-                                Marshal.WriteInt32(DeviceInterfaceDetailData, IntPtr.Size == 8 ? 8 : 6);
-                                bool result4 = SetupDiGetDeviceInterfaceDetail(PnPHandle, DevInterfaceData, DeviceInterfaceDetailData, size, out needed, DevInfoData);
-                                if (!result4)
-                                {
-                                    //shouldn't be an error here
-                                    int error1 = Marshal.GetLastWin32Error();
-                                    //todo: go +1 and contine the loop...this exception handing is incomplete
-                                }
-                                IntPtr pDevicePathName = new IntPtr(DeviceInterfaceDetailData.ToInt64() + 4);
-                                FDevicePathName = Marshal.PtrToStringAuto(pDevicePathName);
-                                //see if this driver has readwrite access
-                                FDevHandle = CreateFile(FDevicePathName, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite, IntPtr.Zero, System.IO.FileMode.Open, 0, IntPtr.Zero);
-                                if (FDevHandle.IsInvalid)
-                                {
-                                    FDevHandle = CreateFile(FDevicePathName, 0, System.IO.FileShare.ReadWrite, IntPtr.Zero, System.IO.FileMode.Open, 0, IntPtr.Zero);
-                                }
-                                if (!FDevHandle.IsInvalid)
-                                {
-                                    //this device has readwrite access, could it be the device we are looking for?
-                                    HIDD_ATTRIBUTES HIDAttributes = new HIDD_ATTRIBUTES();
-                                    HIDAttributes.Size = Marshal.SizeOf(HIDAttributes);
+			uint i = 0;
+
+			//we coudld use a lot more failure and exception logging during this loop
+			bool bFoundADevice;
+			do
+			{
+				SP_DEVICE_INTERFACE_DATA DevInterfaceData = new SP_DEVICE_INTERFACE_DATA();
+				DevInterfaceData.cbSize = (uint)Marshal.SizeOf(DevInterfaceData);
+				bFoundADevice = SetupDiEnumDeviceInterfaces(PnPHandle, IntPtr.Zero, ref HIDGuid, i, ref DevInterfaceData);
+				if (bFoundADevice)
+				{
+					SP_DEVINFO_DATA DevInfoData = new SP_DEVINFO_DATA();
+					DevInfoData.cbSize = (uint)Marshal.SizeOf(DevInfoData);
+					bool result3 = SetupDiGetDeviceInterfaceDetail(PnPHandle, DevInterfaceData, IntPtr.Zero, 0, out var needed, DevInfoData);
+					if (!result3)
+					{
+						int error = Marshal.GetLastWin32Error();
+						if (error == 122)
+						{
+							//it's supposed to give an error 122 as we just only retrieved the data size needed, so this is as designed
+							IntPtr DeviceInterfaceDetailData = Marshal.AllocHGlobal((int)needed);
+							try
+							{
+								uint size = needed;
+								Marshal.WriteInt32(DeviceInterfaceDetailData, IntPtr.Size == 8 ? 8 : 6);
+								bool result4 = SetupDiGetDeviceInterfaceDetail(PnPHandle, DevInterfaceData, DeviceInterfaceDetailData, size, out needed, DevInfoData);
+								if (!result4)
+								{
+									//shouldn't be an error here
+									int error1 = Marshal.GetLastWin32Error();
+									//todo: go +1 and contine the loop...this exception handing is incomplete
+								}
+								IntPtr pDevicePathName = new IntPtr(DeviceInterfaceDetailData.ToInt64() + 4);
+								FDevicePathName = Marshal.PtrToStringAuto(pDevicePathName);
+								//see if this driver has readwrite access
+								FDevHandle = CreateFile(FDevicePathName, System.IO.FileAccess.ReadWrite, System.IO.FileShare.ReadWrite, IntPtr.Zero, System.IO.FileMode.Open, 0, IntPtr.Zero);
+								if (FDevHandle.IsInvalid)
+								{
+									FDevHandle = CreateFile(FDevicePathName, 0, System.IO.FileShare.ReadWrite, IntPtr.Zero, System.IO.FileMode.Open, 0, IntPtr.Zero);
+								}
+								if (!FDevHandle.IsInvalid)
+								{
+									//this device has readwrite access, could it be the device we are looking for?
+									HIDD_ATTRIBUTES HIDAttributes = new HIDD_ATTRIBUTES();
+									HIDAttributes.Size = Marshal.SizeOf(HIDAttributes);
 									bool success = HidD_GetAttributes(FDevHandle, ref HIDAttributes);
-                                    if (success && HIDAttributes.VendorID == FVendorID && HIDAttributes.ProductID == FProductID)
-                                    {
-                                        //this is the device we are looking for
-                                        bFoundMyDevice = true;
-                                        FConnected = true;
-                                        DoLog("Connected.");
-                                        //normally you would start a read thread here, but we aren't doing that in this example. We'll just call .ReadData instead.
-                                        //we won't close our file handle here as it will be need in .SendData.
-                                    }
-                                    else
-                                    {
-                                        //not the device we are looking for
-                                        FDevHandle.Close();
-                                    }
-                                }
-                            }
-                            finally
-                            {
-                                Marshal.FreeHGlobal(DeviceInterfaceDetailData);
-                            }
-                        }
-                    }
-                }
-                i++;
-            } while ((bFoundADevice) & (!bFoundMyDevice));
-        }
+									if (success && HIDAttributes.VendorID == FVendorID && HIDAttributes.ProductID == FProductID)
+									{
+										//this is the device we are looking for
+										bFoundMyDevice = true;
+										FConnected = true;
+										DoLog("Connected.");
+										//normally you would start a read thread here, but we aren't doing that in this example. We'll just call .ReadData instead.
+										//we won't close our file handle here as it will be need in .SendData.
+									}
+									else
+									{
+										//not the device we are looking for
+										FDevHandle.Close();
+									}
+								}
+							}
+							finally
+							{
+								Marshal.FreeHGlobal(DeviceInterfaceDetailData);
+							}
+						}
+					}
+				}
+				i++;
+			} while ((bFoundADevice) & (!bFoundMyDevice));
+		}
 
         //disconnect
         public void Disconnect()

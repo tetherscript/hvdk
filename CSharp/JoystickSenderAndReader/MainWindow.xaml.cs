@@ -139,7 +139,7 @@ namespace JoystickSenderAndReader
         }
 
         //for converting a struct to byte array
-        public byte[] getBytesSFJ(SetFeatureJoy sfj, int size)
+        public static byte[] getBytesSFJ(SetFeatureJoy sfj, int size)
         {
             byte[] arr = new byte[size];
             IntPtr ptr = Marshal.AllocHGlobal(size);
@@ -150,7 +150,7 @@ namespace JoystickSenderAndReader
         }
 
         //for converting a struct to byte array
-        public byte[] getBytesGDJ(GetDataJoy gdj, int size)
+        public static byte[] getBytesGDJ(GetDataJoy gdj, int size)
         {
             byte[] arr = new byte[size];
             IntPtr ptr = Marshal.AllocHGlobal(size);
@@ -160,8 +160,8 @@ namespace JoystickSenderAndReader
             return arr;
         }
 
-        //for converting a byte array to struct
-        GetDataJoy fromBytes(byte[] arr)
+		//for converting a byte array to struct
+		static GetDataJoy fromBytes(byte[] arr)
         {
             GetDataJoy str = new GetDataJoy();
             int size = Marshal.SizeOf(str);

@@ -67,7 +67,7 @@ namespace App
         }
 
         //for converting a struct to byte array
-        public byte[] getBytesSFJ(SetFeatureMouseRel sfj, int size)
+        public static byte[] getBytesSFJ(SetFeatureMouseRel sfj, int size)
         {
             byte[] arr = new byte[size];
             IntPtr ptr = Marshal.AllocHGlobal(size);

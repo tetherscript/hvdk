@@ -11,7 +11,6 @@ namespace App
     {
 
         private HIDController HID = new HIDController();
-        private KbUtils KUtils = new KbUtils();
 
         private uint FTimeout = 5000;  //approx five seconds
 
@@ -64,7 +63,7 @@ namespace App
         }
 
         //for converting a struct to byte array
-        public byte[] getBytesSFJ(SetFeatureKeyboard sfj, int size)
+        public static byte[] getBytesSFJ(SetFeatureKeyboard sfj, int size)
         {
             byte[] arr = new byte[size];
             IntPtr ptr = Marshal.AllocHGlobal(size);
@@ -108,9 +107,9 @@ namespace App
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SetTarget();
-            //here we resolve the 'a' to be a keycode of 4 by using the keycode list
-            byte k = KUtils.GetKeyKeyCode("a");
+			SetTarget();
+			//here we resolve the 'a' to be a keycode of 4 by using the keycode list
+			byte k = KbUtils.GetKeyKeyCode("a");
             if (k > 0)
             {
                 Send(0, 0, k, 0, 0, 0, 0, 0);
@@ -123,9 +122,9 @@ namespace App
 
         private void button2_Click(object sender, EventArgs e)
         {
-            SetTarget();
+			SetTarget();
             //here we resolve the 'a' to be a keycode of 4 by using the keycode list
-            byte k = KUtils.GetKeyKeyCode("a");
+            byte k = KbUtils.GetKeyKeyCode("a");
             if (k > 0)
             {
                 Send(0, 0, k, 0, 0, 0, 0, 0);
@@ -144,7 +143,7 @@ namespace App
 
             private void button3_Click(object sender, EventArgs e)
         {
-            SetTarget();
+			SetTarget();
             //we'll need to send a CTRL-A simultaneously, then press the Delete key to clear the selected text.
             //for simplicity, we have pre-computed the values needed
             //Send LCTRL
@@ -166,9 +165,9 @@ namespace App
 
         private void button6_Click(object sender, EventArgs e)
         {
-            SetTarget();
-            byte k1 = KUtils.GetKeyKeyCode("a");
-            byte k2 = KUtils.GetKeyKeyCode("b");
+			SetTarget();
+            byte k1 = KbUtils.GetKeyKeyCode("a");
+            byte k2 = KbUtils.GetKeyKeyCode("b");
             if ((k1 > 0) && (k2 > 0))
             {
                 //you can press up to six keys (not including modifiers) simultaneously.
@@ -187,7 +186,7 @@ namespace App
 
         private void SendText(string text, int Down, int Interkey)
         {
-            SetTarget();
+			SetTarget();
             //this example sends a simple 'Hello'.  If you want to use other modifers or keys like 'SPACEBAR' or 'TAB' you'll need to tweak this code. 
             //we will put each character in the key0 slot, wait a bit, clear the slot, wait a bit and then do the next letter
             int m;
@@ -200,7 +199,7 @@ namespace App
                 //check for uppercase letters
                 if (t == char.ToUpper(t))
                 {
-                    m = KUtils.GetModifierKeyCode("[LSHIFT]");
+                    m = KbUtils.GetModifierKeyCode("[LSHIFT]");
                 }
                 else
                 {
@@ -226,7 +225,7 @@ namespace App
                     default: m1 = 0; break;
                 }
                 //the keycode is the same whether it is capitalized or not
-                k1 = KUtils.GetKeyKeyCode(char.ToLower(t).ToString());
+                k1 = KbUtils.GetKeyKeyCode(char.ToLower(t).ToString());
                 if (k1 > 0)
                 {
                     //pressing the key down
@@ -243,7 +242,7 @@ namespace App
 
         private void button4_Click(object sender, EventArgs e)
         {
-            SetTarget();
+			SetTarget();
             //press the 'a' key
             Send(0, 0, 4, 0, 0, 0, 0, 0);
             System.Threading.Thread.Sleep(50);
@@ -254,12 +253,12 @@ namespace App
             Application.Exit();
         }
 
-        private void SetTarget()
+        private static void SetTarget()
         {
-            //we could just dump the text to the editbox on the main form, but they sleep delays will give odd effects and cause key repeats to not look correct since
-            //the main thread is sleeping, the ui isn't updated with the keystrokes until the sleep is finished.
-            //tbLog.Focus();  
-            KUtils.AppActivate("Tetherscript Virtual Keyboard Driver Reader", 300);
+			//we could just dump the text to the editbox on the main form, but they sleep delays will give odd effects and cause key repeats to not look correct since
+			//the main thread is sleeping, the ui isn't updated with the keystrokes until the sleep is finished.
+			//tbLog.Focus();  
+			KbUtils.AppActivate("Tetherscript Virtual Keyboard Driver Reader", 300);
         }
     
     }
