@@ -3,7 +3,7 @@ The HVDK is a Windows SDK that allows you to send data to Tetherscript's Virtual
 
 The Drivers are 64-bit only and must be installed only on Windows 7, 8, 8.1 or 10 64bit.  The drivers will not work on 32-bit Windows operating systems.
 
-These examples were created on Delphi 10.1 Berlin (32-bit builds) and Visual Studio in C# .Net 3.5/4.72 (with 64-bit builds).  The Delphi examples include compiled and signed executables in case you want to try the drivers without installing Delphi or Visual Studio C#.  These examples require that the HVDK Standard or Professional drivers are installed.  They are available from https://www.tetherscript.com/hid-driver-kit-home/.  The driver source code has not and will not made available publicly.
+These examples were created on Delphi 10.1 Berlin (32-bit builds) and Visual Studio in C# .Net 3.5/4.72 (with 64-bit builds).  These examples require that the HVDK Standard or Professional drivers are installed.  They are available from https://www.tetherscript.com/hid-driver-kit-home/.  The driver source code has not and will not made available publicly.
 
 You can find the SDK documentation at:
 
