@@ -354,3 +354,4 @@ MigrationBackup/
 *.exe
 *.local
 *.identcache
+*.res

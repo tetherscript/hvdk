@@ -412,48 +412,48 @@ FOvlRead: TOverlapped;
 HidOverlappedRead: THandle;
 NumOverlappedBuffers: Integer;
 begin
-  SleepRet := WAIT_IO_COMPLETION;
   try
+    HidOverlappedRead := INVALID_HANDLE_VALUE; //it's not open yet
+    HidOverlappedRead := CreateFile(PChar(FDevicePath), GENERIC_READ,
+      FILE_SHARE_READ or FILE_SHARE_WRITE, nil, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0);
+    if HidOverlappedRead <> INVALID_HANDLE_VALUE then
+    begin
+      if NumOverlappedBuffers <> 0 then
+        FHidD_SetNumInputBuffers(HidOverlappedRead, NumOverlappedBuffers);
+      FHidD_GetNumInputBuffers(HidOverlappedRead, NumOverlappedBuffers);
+    end
+    else
+    begin
+      Terminate;
+    end;
     while not Terminated do
     begin
       // read data
       SleepRet := WAIT_IO_COMPLETION;
-
+      //36 is the length of the data structure for the joystick TDriverDataJoy record.
+      //Change this size as needed for other driver data structures, or maybe just calculate the record length - 1 byte(recordnum).
       SetLength(Report, 36);
       FillChar(Report[0], 36, #0);
-      HidOverlappedRead := INVALID_HANDLE_VALUE; //it's not open yet
-      if HidOverlappedRead = INVALID_HANDLE_VALUE then // if not already opened
+      FillChar(FOvlRead, SizeOf(TOverlapped), #0);
+      FOvlRead.hEvent := DWORD(Self);
+      if ReadFileEx(HidOverlappedRead, Report[0], 36, FOvlRead, @DummyReadCompletion) then
       begin
-        HidOverlappedRead := CreateFile(PChar(FDevicePath), GENERIC_READ,
-          FILE_SHARE_READ or FILE_SHARE_WRITE, nil, OPEN_EXISTING, FILE_FLAG_OVERLAPPED, 0);
-        if HidOverlappedRead <> INVALID_HANDLE_VALUE then
+        // wait for read to complete
+        repeat
+          SleepRet := SleepEx(5, True);
+        until Terminated or (SleepRet = WAIT_IO_COMPLETION);
+        if not Terminated then
         begin
-          if NumOverlappedBuffers <> 0 then
-            FHidD_SetNumInputBuffers(HidOverlappedRead, NumOverlappedBuffers);
-          FHidD_GetNumInputBuffers(HidOverlappedRead, NumOverlappedBuffers);
-        end;
-        FillChar(FOvlRead, SizeOf(TOverlapped), #0);
-        FOvlRead.hEvent := DWORD(Self);
-        if ReadFileEx(HidOverlappedRead, Report[0], 36, FOvlRead, @DummyReadCompletion) then
-        begin
-          // wait for read to complete
-          repeat
-            SleepRet := SleepEx(5, True);
-          until Terminated or (SleepRet = WAIT_IO_COMPLETION);
           // show data read
-          if not Terminated then
-          begin
-            Synchronize(DoData);
-          end;
-        end
-        else
-        begin
-          FErr := GetLastError;
-          Synchronize(DoDataError);
-          SleepEx(5, True);
+          Synchronize(DoData);
         end;
+      end
+      else
+      begin
+        FErr := GetLastError;
+        Synchronize(DoDataError);
+        SleepEx(5, True);
       end;
-
     end;
   finally
     if SleepRet <> WAIT_IO_COMPLETION then
@@ -479,12 +479,5 @@ begin
       Result := False;
   end;
 end;
-
-
-
-
-
-
-
 
 end.

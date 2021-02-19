@@ -31,9 +31,6 @@ object frmMain: TfrmMain
         'iver and display the values on gauges.')
     ScrollBars = ssVertical
     TabOrder = 1
-    ExplicitLeft = 8
-    ExplicitTop = 3
-    ExplicitHeight = 216
   end
   object pnlOutput: TPanel
     AlignWithMargins = True
@@ -45,7 +42,6 @@ object frmMain: TfrmMain
     BevelOuter = bvNone
     DockSite = True
     TabOrder = 2
-    ExplicitTop = 258
     object lblRotX: TLabel
       Left = 19
       Top = 11
@@ -397,8 +393,6 @@ object frmMain: TfrmMain
     BevelOuter = bvNone
     DockSite = True
     TabOrder = 3
-    ExplicitLeft = -13
-    ExplicitTop = 389
     object gXRot: TGauge
       Left = 40
       Top = 14
@@ -592,7 +586,6 @@ object frmMain: TfrmMain
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = 8
     object btnCreate: TButton
       Left = 0
       Top = 0
@@ -602,9 +595,6 @@ object frmMain: TfrmMain
       Caption = 'Create'
       TabOrder = 0
       OnClick = btnCreateClick
-      ExplicitLeft = 301
-      ExplicitTop = -3
-      ExplicitHeight = 25
     end
     object btnFree: TButton
       Left = 75
@@ -615,9 +605,6 @@ object frmMain: TfrmMain
       Caption = 'Free'
       TabOrder = 1
       OnClick = btnFreeClick
-      ExplicitLeft = 464
-      ExplicitTop = -3
-      ExplicitHeight = 25
     end
   end
   object tmrSendJoyData: TTimer

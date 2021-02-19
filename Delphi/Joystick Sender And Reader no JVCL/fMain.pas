@@ -196,18 +196,6 @@ begin
   lblBtnVal.Caption := IntToStr(FJoyState.buttons[0]);
 end;
 
-
-
-
-
-
-
-
-
-
-
-
-
 procedure TfrmMain.SendJoy;
 var
 Feature: TSetFeatureJoy;
@@ -249,7 +237,6 @@ begin
     FHIDController.SendData(Feature, SizeOf(Feature) + 1);
   end;
 end;
-
 
 procedure TfrmMain.tmrSendJoyDataTimer(Sender: TObject);
 begin
