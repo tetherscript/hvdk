@@ -2,8 +2,9 @@ HVDK Discontinued as of Dec. 5, 2022.
 
 The HID Virtual Driver Kit has now been discontinued. Supporting the kit in the future is problematic for the following reasons.
 
-    Microsoft continues to lock down access to Windows driver configuration. This has been ongoing since Windows 8, but now with Windows 11, 11S and upcoming releases of Windows, it will become very costly for the certificates needed to sign the HVDK drivers. We expect that soon, you just won’t be able to install drivers like these (HID emulators).
-    The drivers were coded with Visual Studio 2013 and Microsoft has made it extremely challenging to get these to compile on newer Visual Studio releases.
+- Microsoft continues to lock down access to Windows driver configuration. This has been ongoing since Windows 8, but now with Windows 11, 11S and upcoming releases of Windows, it will become very costly for the certificates needed to sign the HVDK drivers. We expect that soon, you just won’t be able to install drivers like these (HID emulators).
+
+- The drivers were coded with Visual Studio 2013 and Microsoft has made it extremely challenging to get these to compile on newer Visual Studio releases.
 
 For current customers of the paid version of the kit (HVDK Professional), the signed drivers will continue to be install-able until spring 2023. At that point, the drivers can’t be installed due to the certificate expiry. Drivers installed previous to this date will continue to work without issue past the driver certificate expiry date.
 
